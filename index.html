@@ -1,0 +1,88 @@
+---
+layout: default
+---
+
+<!-- 随机古诗词容器 -->
+<div id="poem-banner" style="padding: 40px; background: #f5f5f4; text-align: center; margin-bottom: 30px; border-radius: 4px;">
+  <h2 id="poem-text" style="font-family: 'Noto Serif SC', serif; margin: 0 0 10px 0;">正在加载...</h2>
+  <p id="poem-author" style="color: #666; font-size: 0.9em; margin: 0;">—</p>
+</div>
+
+<div class="home">
+  <h2 class="post-list-heading">最近文章</h2>
+  <ul class="post-list">
+    {% for post in site.posts limit:5 %}
+      <li>
+        <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+        </h3>
+        <!-- 显示文章摘要 -->
+        <p>{{ post.excerpt }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<!-- 简单的古诗词脚本 -->
+<script>
+  const poems = [
+    { text: "人生到处知何似，应似飞鸿踏雪泥。", author: "苏轼" },
+    { text: "莫听穿林打叶声，何妨吟啸且徐行。", author: "苏轼" },
+    { text: "醉后不知天在水，满船清梦压星河。", author: "唐温如" }
+  ];
+  const randomPoem = poems[Math.floor(Math.random() * poems.length)];
+  document.getElementById('poem-text').innerText = "“" + randomPoem.text + "”";
+  document.getElementById('poem-author').innerText = "— " + randomPoem.author;
+</script>
+
+
+3. archive.html (归档页)
+
+创建一个新文件 archive.html，放在根目录。
+
+---
+layout: page
+title: 归档
+permalink: /archive/
+---
+
+<ul class="archive-list">
+  {% for post in site.posts %}
+    {% capture current_year %}{{ post.date | date: "%Y" }}{% endcapture %}
+    {% if current_year != year %}
+      {% unless forloop.first %}</ul>{% endunless %}
+      <h3 class="year-header">{{ current_year }}</h3>
+      <ul>
+      {% capture year %}{{ current_year }}{% endcapture %}
+    {% endif %}
+    <li>
+      <span style="font-family: monospace; color: #999; margin-right: 10px;">{{ post.date | date: "%m-%d" }}</span>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+  </ul>
+
+
+4. _posts/ (文章存放处)
+
+创建一个名为 _posts 的文件夹。文件名必须严格遵循 年-月-日-标题.md 格式。
+
+示例：_posts/2025-01-01-hello-world.md
+
+---
+layout: post
+title:  "你好，世界"
+date:   2025-01-01 10:00:00 +0800
+categories: 随笔
+---
+
+这是我的第一篇博客文章。
+
+欢迎来到我的**精神角落**。
+
+### 插入图片示例
+![示例图片](https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80)
+
+### 插入视频示例
+<iframe width="560" height="315" src="//[player.bilibili.com/player.html?bvid=BV1GJ411x7h7](https://player.bilibili.com/player.html?bvid=BV1GJ411x7h7)" scrolling="no" border="0" frameborder="0" framespacing="0" allowfullscreen="true"></iframe>
